@@ -58,3 +58,5 @@ jobs:
           push: true
           platforms: ${{ inputs.platforms }}
           tags: ${{ inputs.image }}:${{ inputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
