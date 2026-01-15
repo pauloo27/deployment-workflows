@@ -1,0 +1,53 @@
+name: Helm Chart Push
+
+on:
+  workflow_call:
+    inputs:
+      chart_path:
+        description: Path to the Helm chart directory
+        required: true
+        type: string
+      chart_name:
+        description: Helm chart name
+        required: true
+        type: string
+      version:
+        description: Chart version
+        required: true
+        type: string
+      registry:
+        description: OCI registry URL
+        required: false
+        type: string
+        default: ghcr.io
+      repository:
+        description: Repository name (e.g., org/chart-name)
+        required: true
+        type: string
+
+jobs:
+  helm_push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'latest'
+
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ${{ inputs.registry }} --username ${{ github.actor }} --password-stdin
+
+      - name: Package Helm chart
+        run: |
+          helm package ${{ inputs.chart_path }} --version ${{ inputs.version }} --destination .
+
+      - name: Push Helm chart
+        run: |
+          helm push ${{ inputs.chart_name }}-${{ inputs.version }}.tgz oci://${{ inputs.registry }}/${{ inputs.repository }}
