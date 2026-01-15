@@ -1,0 +1,60 @@
+name: Helm Deploy
+
+on:
+  workflow_call:
+    inputs:
+      release_name:
+        description: Helm release name
+        required: true
+        type: string
+      chart:
+        description: Chart reference (oci://registry/chart:version)
+        required: true
+        type: string
+      namespace:
+        description: Kubernetes namespace
+        required: true
+        type: string
+      image:
+        description: Docker image to deploy
+        required: true
+        type: string
+      values_file:
+        description: Path to values file
+        required: true
+        type: string
+    secrets:
+      kubeconfig:
+        description: Kubeconfig content
+        required: true
+
+jobs:
+  helm_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Configure Kubeconfig
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.kubeconfig }}
+
+      - name: Deploy Helm chart
+        run: |
+          helm upgrade ${{ inputs.release_name }} ${{ inputs.chart }} \
+            --install \
+            --create-namespace \
+            --namespace ${{ inputs.namespace }} \
+            --set image.tag=${{ inputs.image }} \
+            --values ${{ inputs.values_file }}
+
+      - name: Verify deployment
+        run: |
+          helm list --namespace ${{ inputs.namespace }}
+          kubectl get pods --namespace ${{ inputs.namespace }}
