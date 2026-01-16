@@ -49,7 +49,7 @@ jobs:
           echo "${{ secrets.openvpn_config }}" > /tmp/client.ovpn
 
       - name: Connect to VPN
-        uses: kota65535/github-openvpn-connect-action@v2
+        uses: kota65535/github-openvpn-connect-action@v3
         with:
           config_file: /tmp/client.ovpn
           echo_config: false
