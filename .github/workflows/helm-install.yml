@@ -27,6 +27,9 @@ on:
       kubeconfig:
         description: Kubeconfig content
         required: true
+      openvpn_config:
+        description: OpenVPN config file content
+        required: true
 
 jobs:
   helm_deploy:
@@ -35,6 +38,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install OpenVPN
+        run: |
+          sudo apt update
+          sudo apt install -y openvpn openvpn-systemd-resolved
+
+      - name: Setup VPN config
+        run: |
+          echo "${{ secrets.openvpn_config }}" > /tmp/client.ovpn
+
+      - name: Connect to VPN
+        uses: kota65535/github-openvpn-connect-action@v2
+        with:
+          config_file: /tmp/client.ovpn
+          echo_config: false
 
       - name: Install Helm
         uses: azure/setup-helm@v4
