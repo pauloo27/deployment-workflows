@@ -15,8 +15,8 @@ on:
         description: Kubernetes namespace
         required: true
         type: string
-      image:
-        description: Docker image to deploy
+      image_tag:
+        description: Docker image tag to deploy
         required: true
         type: string
       values_file:
@@ -69,7 +69,7 @@ jobs:
             --install \
             --create-namespace \
             --namespace ${{ inputs.namespace }} \
-            --set image.tag=${{ inputs.image }} \
+            --set image.tag=${{ inputs.image_tag }} \
             --values ${{ inputs.values_file }}
 
       - name: Verify deployment
