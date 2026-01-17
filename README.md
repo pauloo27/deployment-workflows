@@ -4,6 +4,12 @@ Reusable GitHub Actions workflows for building Docker images, packaging Helm
 charts, and deploying applications to Kubernetes. This repository provides 
 CI/CD automation as shared workflows that can be called from other repositories.
 
+## Infrastructure
+
+Terraform configuration for provisioning the AWS infrastructure (VPC, EC2 
+k3s cluster, VPN) is located in the `infra/` directory. See 
+[infra/README.md](infra/README.md) for setup instructions.
+
 ## How It Works
 
 This repository contains three reusable workflows:
