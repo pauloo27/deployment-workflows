@@ -70,7 +70,8 @@ jobs:
             --create-namespace \
             --namespace ${{ inputs.namespace }} \
             --set image.tag=${{ inputs.image_tag }} \
-            --values ${{ inputs.values_file }}
+            --values ${{ inputs.values_file }} \
+            --atomic
 
       - name: Verify deployment
         run: |
