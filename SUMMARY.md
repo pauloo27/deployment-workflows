@@ -44,9 +44,9 @@ The solution consists of five main components:
 
 | Repository | Responsibility |
 |------------|----------------|
-| `sample-java-api` | Application code, Dockerfile, environment values files, CI/CD workflows |
-| `helm-charts` | Helm chart templates and default values |
-| `deployment-workflows` | Reusable GitHub Actions workflows (build, package, deploy) and Terraform infrastructure |
+| [`sample-java-api`](https://github.com/pauloo27/sample-java-api) | Application code, Dockerfile, environment values files, CI/CD workflows |
+| [`helm-charts`](https://github.com/pauloo27/helm-charts) | Helm chart templates and default values |
+| [`deployment-workflows`](https://github.com/pauloo27/deployment-workflows) | Reusable GitHub Actions workflows (build, package, deploy) and Terraform infrastructure |
 
 ## Security Considerations
 
