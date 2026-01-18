@@ -61,8 +61,8 @@ The solution consists of five main components:
 - **No committed credentials**: Zero secrets in Git history
 
 ### Network Security
-- **Private VPC**: EC2 instance in dedicated VPC (10.0.0.0/16)
-- **VPN subnet**: Separate subnet (10.8.0.0/24) for VPN client connections
+- **Private VPC**: EC2 instance in dedicated VPC (10.5.0.0/16)
+- **VPN client CIDR**: VPN clients assigned IPs from 10.10.0.0/22 range
 
 ## Reviewer Verification Guide
 

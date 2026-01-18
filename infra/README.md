@@ -1,5 +1,23 @@
 # Infrastructure
 
+## Structure
+
+```
+infra/
+├── modules/          # Reusable Terraform modules
+│   ├── network/      # VPC, subnets, routing
+│   ├── vpn/          # AWS Client VPN endpoint and configuration
+│   └── ec2/          # K3s EC2 instance, security groups, IAM roles
+├── nonprod/          # Non-production environment
+│   └── main.tf       # Environment-specific configuration
+└── scripts/          # Helper scripts
+    └── generate-vpn-certs.sh  # VPN certificate generation
+```
+
+The infrastructure is organized into reusable modules that can be composed for 
+different environments. Each module handles a specific piece of infrastructure 
+(networking, VPN, compute) and exposes outputs that other modules can consume.
+
 ## Setup
 
 ### 1. AWS CLI Setup
